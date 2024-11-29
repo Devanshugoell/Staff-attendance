@@ -38,6 +38,7 @@ function App() {
     };
     dt.push(newObj);
     setData(dt);
+    console.log(dt.length);
   };
 
   const handleClear = () => {
