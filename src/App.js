@@ -10,8 +10,22 @@ function App() {
   const [isUpdate, setIsUpdate] = useState(false);
 
   useEffect(() => {
-    setData(employeeData);
+    const updatedData = employeeData.map((item) => ({
+      ...item,
+      opacity: 1, // Default opacity
+    }));
+    setData(updatedData);
   }, []);
+
+  const handleCheckboxChange = (id, isChecked) => {
+    // console.log(id, isChecked);
+    const updatedData = data.map((item) =>
+      item.id === id
+        ? { ...item, opacity: isChecked ? 0.5 : 1 } // Set opacity to 0.5 if checked, otherwise 1
+        : item
+    );
+    setData(updatedData);
+  };
 
   const handleUpdate = () => {
     const index = data
@@ -133,14 +147,19 @@ function App() {
           {data.map((item, index) => {
             return (
               <tr key={index}>
-                <td>{index + 1}</td>
-                <td>{item.id}</td>
-                <td>{item.firstName}</td>
-                <td>{item.lastName}</td>
-                <td>
-                  <input type="checkbox" name="" id="" />
+                <td style={{ opacity: item.opacity }}>{index + 1}</td>
+                <td style={{ opacity: item.opacity }}>{item.id}</td>
+                <td style={{ opacity: item.opacity }}>{item.firstName}</td>
+                <td style={{ opacity: item.opacity }}>{item.lastName}</td>
+                <td style={{ opacity: item.opacity }}>
+                  <input
+                    type="checkbox"
+                    onChange={(e) =>
+                      handleCheckboxChange(item.id, e.target.checked)
+                    }
+                  />
                 </td>
-                <td>
+                <td style={{ opacity: item.opacity }}>
                   <button
                     className="btn btn-primary"
                     onClick={() => handleEdit(item.id)}
